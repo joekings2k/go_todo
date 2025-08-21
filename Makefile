@@ -11,5 +11,7 @@ migratedown:
 	migrate -path db/migration -database "postgresql://root:mypassword@localhost:5432/go_todos?sslmode=disable" -verbose down
 sqlc:
 	sqlc generate
+createmigration:
+	migrate create -ext sql -dir db/migration -seq init_schema
 
 .PHONY: postgres createdb dropdb migrateup migratedown
