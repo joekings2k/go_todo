@@ -13,7 +13,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres12
+        image: postgres:12
         env:
           POSTGRES_USER: root
           POSTGRES_PASSWORD: mypassword
@@ -37,6 +37,6 @@ jobs:
 
     - name: Run migrations
       run: make migrateup
-      
+
     - name: Test
       run: make test
