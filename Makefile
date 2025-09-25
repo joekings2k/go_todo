@@ -13,5 +13,8 @@ sqlc:
 	sqlc generate
 createmigration:
 	migrate create -ext sql -dir db/migration -seq init_schema
+test:
+	go test -v -cover ./...
+
 
 .PHONY: postgres createdb dropdb migrateup migratedown
