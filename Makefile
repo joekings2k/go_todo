@@ -1,5 +1,7 @@
 -include app.env
-export $(shell sed 's/=.*//' .env)
+ifneq ("$(wildcard app.env)","")
+    export $(shell sed 's/=.*//' app.env)
+endif
 postgres:
 	docker run --name postgres12 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=mypassword -p 5432:5432 -d postgres:12-alpine
 createdb: 
