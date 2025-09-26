@@ -22,7 +22,7 @@ func TestMain (m *testing.M){
 		log.Fatal("cannot get env variables")
 	}
 	fmt.Print("config files",config.DBDriver,config.DBSource)
-	conn, err := sql.Open(config.DBDriver, config.DBSource)
+	conn, err := sql.Open("postgres", config.DBSource)
 	if err != nil {
 		log.Fatal("cannot connect to db:", err)
 	}
