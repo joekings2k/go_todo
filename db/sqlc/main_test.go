@@ -16,6 +16,7 @@ var testQueries *Queries
 
 func TestMain (m *testing.M){
 	config,err := util.LoadConfig("../..")
+	log.Fatal(config.DBDriver)
 	if err != nil {
 		log.Fatal("cannot get env variables")
 	}
