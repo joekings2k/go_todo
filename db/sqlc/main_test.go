@@ -5,19 +5,22 @@ import (
 	"log"
 	"os"
 	"testing"
+	"github.com/go_todos/util"
 	_ "github.com/lib/pq"
 )
 
 
-const  (
-	dbDriver = "postgres"
-	dbSource = "postgresql://root:mypassword@localhost:5432/go_todos?sslmode=disable"
-)
+
 var testQueries *Queries
 
 
 func TestMain (m *testing.M){
-	conn, err := sql.Open(dbDriver, dbSource)
+	config,err := util.LoadConfig("../..")
+	if err != nil {
+		log.Fatal("cannot get env variables")
+	}
+
+	conn, err := sql.Open(config.DBDriver, config.DBSource)
 	if err != nil {
 		log.Fatal("cannot connect to db:", err)
 	}
