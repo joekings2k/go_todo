@@ -2,9 +2,11 @@ package db
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"os"
 	"testing"
+
 	"github.com/go_todos/util"
 	_ "github.com/lib/pq"
 )
@@ -19,7 +21,7 @@ func TestMain (m *testing.M){
 	if err != nil {
 		log.Fatal("cannot get env variables")
 	}
-
+	fmt.Print("config files",config.DBDriver,config.DBSource)
 	conn, err := sql.Open(config.DBDriver, config.DBSource)
 	if err != nil {
 		log.Fatal("cannot connect to db:", err)
