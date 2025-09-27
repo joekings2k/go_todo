@@ -35,17 +35,16 @@ jobs:
         go-version: '1.24'
       id: go
     
-    - name: Export environment variables
+    - name: Generate app.env
       run: |
-        echo "DB_DRIVER=postgres" >> $GITHUB_ENV
-        echo "DB_SOURCE=${{secrets.DB_SOURCE}}" >> $GITHUB_ENV
-        echo "SERVER_ADDRESS=${{secrets.SERVER_ADDRESS}}" >> $GITHUB_ENV
-        echo "TOKEN_SYMMETRIC_KEY=${{ secrets.TOKEN_SYMMETRIC_KEY }}" >> $GITHUB_ENV
-        echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
-        echo "DB_USER=${{ secrets.DB_USER }}" >> $GITHUB_ENV
-        echo "MAIN_GO=${{ secrets.MAIN_GO }}" >> $GITHUB_ENV
-        echo "ACCESS_TOKEN_DURATION=${{secrets.ACCESS_TOKEN_DURATION}}" >> $GITHUB_ENV
-        echo "TOKEN_SYMMETRIC_KEY=${{secrets.TOKEN_SYMMETRIC_KEY}}" >> $GITHUB_ENV
+        echo "DB_DRIVER=postgres" > app.env
+        echo "DB_SOURCE=${{ secrets.DB_SOURCE }}" >> app.env
+        echo "SERVER_ADDRESS=${{ secrets.SERVER_ADDRESS }}" >> app.env
+        echo "TOKEN_SYMMETRIC_KEY=${{ secrets.TOKEN_SYMMETRIC_KEY }}" >> app.env
+        echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> app.env
+        echo "DB_USER=${{ secrets.DB_USER }}" >> app.env
+        echo "MAIN_GO=${{ secrets.MAIN_GO }}" >> app.env
+        echo "ACCESS_TOKEN_DURATION=${{ secrets.ACCESS_TOKEN_DURATION }}" >> app.env
         
     - name: Cache Go modules
       uses: actions/cache@v4

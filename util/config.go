@@ -18,17 +18,21 @@ type Config struct {
 
 func LoadConfig(path string ) (config Config , err error ) {
 	viper.AddConfigPath(path)
-	viper.SetConfigName("app")
 	viper.SetConfigType("env")
-
-
 	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 	viper.AutomaticEnv()
 	
 	 
-	if readErr := viper.ReadInConfig(); readErr != nil {
-		fmt.Println("⚠️ No app.env file found, falling back to environment variables...")
+	viper.SetConfigName("app")
+	if err := viper.ReadInConfig(); err != nil {
+		fmt.Println("⚠️ No app.env file found, trying local.app.env...")
+		// If app.env is missing, try local.app.env
+		viper.SetConfigName("local.app")
+		if localErr := viper.ReadInConfig(); localErr != nil {
+			fmt.Println("⚠️ No local.app.env found, relying on environment variables only.")
+		}
 	}
+
 	err = viper.Unmarshal(&config)
 	return
 
