@@ -9,11 +9,12 @@ import (
 
 type Server struct {
 	config util.Config
-	store *db.Store
+	store db.Store
 	router *gin.Engine
 }
 
-func NewServer(config util.Config, store *db.Store) (*Server, error) {
+func NewServer(config util.Config, store db.Store) (*Server, error) {
+
 	server := &Server{store: store}
 	
 
@@ -26,6 +27,8 @@ func (server *Server) setupRouter(){
 	router := gin.Default()
 
 	router.GET("/", server.checkHealth )
+	router.POST("/users", server.createUser)
+
 
 	server.router = router
 
@@ -36,6 +39,6 @@ func (server *Server) Start(address string) error  {
 	return  server.router.Run(address)
 }
 
-func errorMessgae(err error ) gin.H {
+func errorResponse(err error ) gin.H {
 	return gin.H{"error":err.Error()}
 }
