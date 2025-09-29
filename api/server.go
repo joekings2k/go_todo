@@ -1,8 +1,11 @@
 package api
 
 import (
+	"fmt"
+
 	"github.com/gin-gonic/gin"
 	db "github.com/go_todos/db/sqlc"
+	"github.com/go_todos/token"
 	"github.com/go_todos/util"
 )
 
@@ -11,11 +14,16 @@ type Server struct {
 	config util.Config
 	store db.Store
 	router *gin.Engine
+	tokenMaker  token.Maker
 }
 
 func NewServer(config util.Config, store db.Store) (*Server, error) {
+	tokenMaker, err := token.NewPasetoMaker(config.TokenSymmetricKey)
+	if err!= nil{
+		return nil, fmt.Errorf("cannot create token %w", err)
+	}
 
-	server := &Server{store: store}
+	server := &Server{store: store,config: config,tokenMaker: tokenMaker}
 	
 
 
@@ -28,6 +36,7 @@ func (server *Server) setupRouter(){
 
 	router.GET("/", server.checkHealth )
 	router.POST("/users", server.createUser)
+	router.POST("/users/login", server.loginUser)
 
 
 	server.router = router
